@@ -24,4 +24,24 @@ export const advertController = {
         }
       },
     },
+    profile: {
+      handler: async function (request, h) {
+        try {
+          const loggedInUser = request.auth.credentials;
+          return h.redirect("/report");
+        } catch (err) {
+          return h.view("main", { errors: [{ message: err.message }] });
+        }
+      },
+    },
+    profileHome: {
+      handler: async function (request, h) {
+        try {
+          const loggedInUser = request.auth.credentials;
+          return h.redirect("/report");
+        } catch (err) {
+          return h.view("main", { errors: [{ message: err.message }] });
+        }
+      },
+    },
   };

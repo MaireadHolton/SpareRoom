@@ -11,6 +11,7 @@ export const webRoutes = [
 
   { method: "GET", path: "/advert", config: advertController.index },
   { method: "POST", path: "/advert", config: advertController.advert },
+  { method: "POST", path: "/profile", config: advertController.profile },
   { method: "GET", path: "/report", config: advertController.report },
 
   {
