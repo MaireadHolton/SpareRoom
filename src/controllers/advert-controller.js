@@ -1,13 +1,13 @@
 export const advertController = {
     index: {
       handler: async function (request, h) {
-        const loggedInUser = request.auth.credentials;
-        return h.view("Advert", { title: "Make an advert", user: loggedInUser });
+        //const loggedInUser = request.auth.credentials;
+        return h.view("Advert", { title: "Make an advert", /*user: loggedInUser */});
       },
     },
     report: {
       handler: async function (request, h) {
-        const loggedInUser = request.auth.credentials;
+        //const loggedInUser = request.auth.credentials;
         return h.view("Report", {
           title: "Adverts to Date",
           user: loggedInUser,
@@ -17,7 +17,7 @@ export const advertController = {
     advert: {
       handler: async function (request, h) {
         try {
-          const loggedInUser = request.auth.credentials;
+          //const loggedInUser = request.auth.credentials;
           return h.redirect("/report");
         } catch (err) {
           return h.view("main", { errors: [{ message: err.message }] });
@@ -27,7 +27,7 @@ export const advertController = {
     profile: {
       handler: async function (request, h) {
         try {
-          const loggedInUser = request.auth.credentials;
+          //const loggedInUser = request.auth.credentials;
           return h.redirect("/report");
         } catch (err) {
           return h.view("main", { errors: [{ message: err.message }] });
@@ -37,7 +37,7 @@ export const advertController = {
     profileHome: {
       handler: async function (request, h) {
         try {
-          const loggedInUser = request.auth.credentials;
+          //const loggedInUser = request.auth.credentials;
           return h.redirect("/report");
         } catch (err) {
           return h.view("main", { errors: [{ message: err.message }] });
