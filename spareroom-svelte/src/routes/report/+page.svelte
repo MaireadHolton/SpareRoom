@@ -1,9 +1,14 @@
 <script>
 	import Header from '$lib/Header.svelte';
 	import AdvertList from '$lib/AdvertList.svelte';
+	import MainNavigator from '$lib/MainNavigator.svelte';
 </script>
 
-<Header />
+<Header>
+ <MainNavigator/>
+</Header> 
+
+
 
 <div class="columns">
 	<div class="column has-text-centered">

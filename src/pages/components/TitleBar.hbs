@@ -1,15 +1,15 @@
-<div class="box has-text-centered columns m-2">
-  <div class="column">
+<div class="box has-text-centered columns m-2" style="background-image: url('https://res.cloudinary.com/ddrhze6ov/image/upload/v1705168783/lecture-at-university_ab2jxy.jpg')">
+  <div class="column" style="background-color: rgb(50,121,173, 0.25)">
     <img src="https://res.cloudinary.com/ddrhze6ov/image/upload/v1704550329/SpareRoomLogo_kxzxr8.jpg" width="100" alt="img"/>
   </div>
-  <div class="column">
-    <div class="title is-5"> {{title}} </div>
-    <div class="subtitle is-5"> {{subTitle}} </div>
+  <div class="column" style="background-color: rgb(50,121,173, 0.25)">
+    <div class="title is-4" style="color:rgb(82, 15, 62);"> {{title}} </div>
+    <div class="subtitle is-5" style="color:rgb(25,95,146);"> {{subTitle}} </div>
   </div>
   <div class="column">
     <i class="fas fa-home fa-3x" style="color: rgb(53, 106, 130);"></i>
-    {{#if user}}
-      <div class="is-size-7">{{user.firstName}} {{user.lastName}}</div>
+    {{#if $user.email}}
+      <div class="is-size-7">{{user.email}}</div>
     {{else}}
       <div class="is-size-7">SpareRoom</div>
     {{/if}}

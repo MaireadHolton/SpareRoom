@@ -37,4 +37,24 @@ export const spareroomService = {
   async clearAuth() {
     axios.defaults.headers.common.Authorization = "";
   },
+
+  async makeAdvert(id, advert){
+    const response = await axios.post(`${this.spareroomUrl}/api/${id}/adverts`, advert);
+    return response.data;
+  },
+
+  async getAdverts(id) {
+    const response = await axios.get(`${this.spareroomUrl}/api/${id}/adverts`);
+    return response.data;
+  },
+
+  async makeStudentDetail(id, studentDetail){
+    const response = await axios.post(`${this.spareroomUrl}/api/${id}/student`, studentDetail);
+    return response.data;
+  },
+
+  async getStudentDetails(id) {
+    const response = await axios.get(`${this.spareroomUrl}/api/${id}/student`);
+    return response.data;
+  },
 };

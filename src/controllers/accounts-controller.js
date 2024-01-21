@@ -7,20 +7,35 @@ export const accountsController = {
       return h.view("Main", { title: "Welcome to SpareRoom" });
     },
   },
-  showSignup: {
+  showStudentSignup: {
     auth: false,
     handler: function (request, h) {
-      return h.view("Signup", { title: "Sign up for SpareRoom" });
+      return h.view("studentSignup", { title: "Sign up for SpareRoom" });
     },
   },
-  signup: {
+  studentSignup: {
     auth: false,
     handler: async function (request, h) {
       const user = request.payload;
       await db.userStore.addUser(user);
-      return h.redirect("/");
+      return h.redirect("/studentDetails");
     },
   },
+  showHomeownerSignup: {
+    auth: false,
+    handler: function (request, h) {
+      return h.view("homeownerSignup", { title: "Sign up for SpareRoom" });
+    },
+  },
+    homeownerSignup: {
+      auth: false,
+      handler: async function (request, h) {
+        const user = request.payload;
+        await db.userStore.addUser(user);
+        return h.redirect("/advert");
+      },
+  },
+
   showLogin: {
     auth: false,
     handler: function (request, h) {
@@ -36,7 +51,7 @@ export const accountsController = {
         return h.redirect("/");
       }
       request.cookieAuth.set({ id: user._id });
-      return h.redirect("/donate");
+      return h.redirect("/report");
     },
   },
   logout: {

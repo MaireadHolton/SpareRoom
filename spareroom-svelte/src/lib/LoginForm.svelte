@@ -1,12 +1,22 @@
 <script>
 	import { goto } from '$app/navigation';
+	import { spareroomService } from '../services/spareRoom-service';
 
 	let email = '';
 	let password = '';
+	let errorMessage = '';
 
 	async function login() {
-		console.log(`attemting to log in email: ${email} with password: ${password}`);
-		goto('/advert');
+		console.log(`attepmting to log in email: ${email} with password: ${password}`);
+		let success = await spareroomService.login(email, password);
+		if (success) {
+			goto('/report');
+		} else {
+			email = "";
+			password = "";
+			errorMessage = "Invalid Credentials";
+		}
+		
 	}
 </script>
 
@@ -22,4 +32,9 @@
 	<div class="field is-grouped">
 		<button class="button is-link" style="background-color: rgb(103, 168, 233);" >Log In</button>
 	</div>
+	{#if errorMessage}
+  <div class="section" style= "color: white">
+    {errorMessage}
+  </div>
+{/if}
 </form>

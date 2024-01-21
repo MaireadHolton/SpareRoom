@@ -1,15 +1,19 @@
 <script>
 	import Header from '$lib/Header.svelte';
-	import SignupForm from '$lib/SignupForm.svelte';
+	import StudentSignupForm from '$lib/StudentSignupForm.svelte';
+ 	import WelcomeNavigator from '$lib/WelcomeNavigator.svelte';
+
 </script>
 
-<Header />
+<Header>
+  <WelcomeNavigator/>
+</Header> 
 
 <div class="columns">
 	<div class="column">
 		<div class="box" style="background-color: rgb(40, 103, 134)">
-			<h1 class="title" style="color: white">Login</h1>
-			<SignupForm />
+			<h1 class="title" style="color: white">Signup</h1>
+			<StudentSignupForm />
 		</div>
 	</div>
 	<div class="column has-text-centered">

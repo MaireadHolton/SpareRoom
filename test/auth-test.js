@@ -1,7 +1,7 @@
 import { assert } from "chai";
 import { spareroomService } from "./spareRoom-service.js";
-import { decodeToken } from "./jwt-utils.js";
-import { maggie } from "../fixtures.js";
+import { decodeToken } from "../src/api/jwt-utils.js";
+import { maggie } from "./fixtures.js";
 
 suite("Authentication API tests", async () => {
   setup(async () => {
