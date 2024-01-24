@@ -1,8 +1,26 @@
+// @ts-nocheck
 import axios from "axios";
 import { user } from "../stores";
 
-export const spareroomService = {
-	baseUrl: "http://localhost:4000",
+export class spareroomService {
+  static getAdverts() {
+    throw new Error("Method not implemented.");
+  }
+
+	constructor (baseUrl) {
+		this.baseUrl = "http://localhost:4000";
+		console.log(this.baseUrl);
+    	const spareroomCredentials = localStorage.spareRoom;
+   	 	if (spareroomCredentials) {
+      		const savedUser = JSON.parse(spareroomCredentials);
+     		 user.set({
+       		 email: savedUser.email,
+      		 token: savedUser.token,
+      		});
+      	axios.defaults.headers.common["Authorization"] =
+        	"Bearer " + savedUser.token;
+    	}
+	}
 
 	async login(email, password) {
 		try {
@@ -21,19 +39,7 @@ export const spareroomService = {
 			console.log(error);
 			return false;
 		}
-	},
-
-	reload() {
-		const spareroomCredentials = localStorage.spareRoom;
-		if (spareroomCredentials) {
-			const savedUser = JSON.parse(spareroomCredentials);
-			user.set({
-				email: savedUser.email,
-				token: savedUser.token
-			});
-			axios.defaults.headers.common["Authorization"] = "Bearer " + savedUser.token;
-		}
-	},
+	}
 
 	async logout() {
 		user.set({
@@ -42,8 +48,7 @@ export const spareroomService = {
 		});
 		axios.defaults.headers.common["Authorization"] = "";
 		localStorage.removeItem("spareRoom");
-
-	},
+	}
 
 	async signup(email, password) {
 		try {
@@ -55,6 +60,54 @@ export const spareroomService = {
 			return true;
 		} catch (error) {
 			return false;
+		}
+	}
+
+	reload() {
+		const spareroomCredentials = localStorage.spareRoom;
+		if (spareroomCredentials) {
+			const savedUser = JSON.parse(spareroomCredentials);
+			user.set({
+				email: savedUser.email,
+				token: savedUser.token
+			});
+			axios.defaults.headers.common["Authorization"] = "Bearer " + savedUser.token;
+		}
+	}
+
+	async makeAdvert(advert) {
+		try {
+			const response = await axios.post(this.baseUrl + "api/" + advert + "/adverts", advert);
+			return response.status == 200;
+		} catch (error) {
+			return false;
+		}
+	}
+
+	async getAdverts() {
+		try {
+			const response = await axios.get(this.baseUrl + "api/adverts");
+			return response.data;
+		} catch (error) {
+			return [];
+		}
+	}
+
+	async makeStudentDetail (studentDetail) {
+		try {
+			const response = await axios.post(this.baseUrl + "api/" + studentDetail + "/student", studentDetail);
+			return response.status == 200;
+		} catch (error) {
+			return false;
+		}
+	}
+
+	async getStudentDetails() {
+		try {
+			const response = await axios.get(this.baseUrl + "api/student");
+			return response.data;
+		} catch (error) {
+			return [];
 		}
 	}
 };

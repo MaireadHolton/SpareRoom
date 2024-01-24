@@ -1,3 +1,35 @@
+<script>
+  import { onMount } from "svelte";
+  import { spareroomService } from "../services/spareRoom-service";
+
+  let firstName = "";
+  let college = "";
+  let description = "";
+  let rules = "";
+  let price = 0;
+  let available = "";
+let message = "Please enter details to post an advert";
+
+  async function advert() {
+    if (firstName && college && description && price && available) {
+      const advert = {
+        firstName: firstName,
+        college: college,
+        price: price,
+        available: available
+      };
+      const success = await spareroomService.makeAdvert(advert);
+      if (!success) {
+        message = "Advert not created - some error occured";
+       return; }
+       message = `Thanks ${firstName} your advert was posted`;
+    } else {
+      message = "Please fill all details to post an advert";
+    }
+}
+</script>
+
+<form on:submit|preventDefault={advert}>
 <div class="field">
       <input type="image" src="https://res.cloudinary.com/ddrhze6ov/image/upload/v1704630335/image_aspe84.png" alt="upload image" width="200" height="200">
       <div class="field is-grouped, vertical-center">
@@ -33,3 +65,7 @@
     <div class="field is-grouped">
       <button class="button is-link" style="background-color: rgb(49, 94, 124);">Post Advert</button>
     </div>
+    <div class="box">
+      {message}
+    </div>
+  </form>
