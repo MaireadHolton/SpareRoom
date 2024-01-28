@@ -1,6 +1,10 @@
 <script>
-  import { onMount } from "svelte";
-  import { spareroomService } from "../services/spareRoom-service";
+  import { createEventDispatcher, getContext, onMount } from "svelte";
+  import AdvertList from "./AdvertList.svelte";
+  
+  const dispatch = createEventDispatcher();
+
+  const spareroomService = getContext("spareroomService");
 
   let firstName = "";
   let college = "";
@@ -8,7 +12,13 @@
   let rules = "";
   let price = 0;
   let available = "";
-let message = "Please enter details to post an advert";
+  let AdvertList = [];
+
+  let message = "Please enter details to post an advert";
+
+  onMount(async () => {
+    AdvertList = await spareroomService.getAdverts()
+  });
 
   async function advert() {
     if (firstName && college && description && price && available) {
