@@ -1,12 +1,12 @@
 <script>
-	import Header from '$lib/Header.svelte';
+	import LoggedInHeader from '$lib/LoggedInHeader.svelte';
     import StudentForm from '$lib/StudentForm.svelte';
  	import MainNavigator from '$lib/MainNavigator.svelte';
 </script>
 
-<Header> 
+<LoggedInHeader> 
     <MainNavigator/>
-</Header>
+</LoggedInHeader>
 
 <div class="columns is-vcentered">
 	<div class="column has-text-centered">

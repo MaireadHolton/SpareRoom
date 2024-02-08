@@ -1,17 +1,18 @@
-<script lang="ts">
-	import { goto } from "$app/navigation";
-	import {spareroomService} from "../services/spareRoom-service"
+<script>
+	import { push } from "svelte-spa-router";
+	import { getContext } from "svelte"
 
 	let email = '';
 	let password = '';
 	let errorMessage = '';
 
+	const spareroomService = getContext("spareroomService");
 
 	async function signup() {
 		console.log(`attempting to sign up email: ${email}`);
 		let success = await spareroomService.signup(email, password)
 		if (success) {
-			goto ('/studentDetails');
+			push ("/studentDetail");
 		} else {
 			errorMessage = "Error trying to signup";
 		}

@@ -1,3 +1,43 @@
+<script>
+  import { createEventDispatcher, getContext, onMount } from "svelte";
+  import { push } from "svelte-spa-router";
+  
+  const dispatch = createEventDispatcher();
+
+  const spareroomService = getContext("spareroomService");
+
+  let firstName = "";
+  let college = "";
+  let year = "";
+  let information = "";
+
+  let message = "Please enter details to create your profile";
+
+
+  async function studentDetail() {
+    if (firstName && college && year) {
+      const studentDetail = {
+        firstName: firstName,
+        college: college,
+        year: year,
+      };
+      const success = await spareroomService.makestudentDetail(studentDetail);
+      if (!success) {
+        message = "Profile not created - some error occured";
+       return; }
+       message = `Thanks ${firstName} your profile was saved`;
+       dispatch("message", {
+      studentDetail: studentDetail,
+      });
+    } else {
+      push ("/report")
+      message = "Please fill all details to create a profile";
+    }
+}
+
+</script>
+
+<form on:submit|preventDefault={studentDetail}>
 <div class="field">
   <input
     type="image"
@@ -60,3 +100,4 @@
     >Save profile</button
   >
 </div>
+</form>

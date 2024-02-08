@@ -1,16 +1,18 @@
 <script>
-	import { goto } from '$app/navigation';
-	import { spareroomService } from '../services/spareRoom-service';
+	import { push } from 'svelte-spa-router';
+  	import { getContext } from 'svelte';
 
 	let email = '';
 	let password = '';
 	let errorMessage = '';
 
+	const spareroomService = getContext("spareroomService");
+
 	async function login() {
 		console.log(`attepmting to log in email: ${email} with password: ${password}`);
 		let success = await spareroomService.login(email, password);
 		if (success) {
-			goto('/report');
+			push('/report');
 		} else {
 			email = "";
 			password = "";

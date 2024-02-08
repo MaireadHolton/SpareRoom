@@ -3,8 +3,11 @@ import axios from "axios";
 import { user } from "../stores";
 
 export class spareroomService {
+
   constructor(baseUrl) {
+    
     this.baseUrl = "http://localhost:4000";
+
     console.log(this.baseUrl);
     const spareroomCredentials = localStorage.spareRoom;
     if (spareroomCredentials) {

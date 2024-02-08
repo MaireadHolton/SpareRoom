@@ -1,6 +1,6 @@
 <script>
   import { createEventDispatcher, getContext, onMount } from "svelte";
-  import AdvertList from "./AdvertList.svelte";
+  import { push } from "svelte-spa-router";
   
   const dispatch = createEventDispatcher();
 
@@ -12,13 +12,9 @@
   let rules = "";
   let price = 0;
   let available = "";
-  let AdvertList = [];
 
   let message = "Please enter details to post an advert";
 
-  onMount(async () => {
-    AdvertList = await spareroomService.getAdverts()
-  });
 
   async function advert() {
     if (firstName && college && description && price && available) {
@@ -33,20 +29,29 @@
         message = "Advert not created - some error occured";
        return; }
        message = `Thanks ${firstName} your advert was posted`;
+       dispatch("message", {
+      advert: advert,
+      });
     } else {
+      push ("/report")
       message = "Please fill all details to post an advert";
     }
 }
 </script>
 
 <form on:submit|preventDefault={advert}>
-<div class="field">
-      <input type="image" src="https://res.cloudinary.com/ddrhze6ov/image/upload/v1704630335/image_aspe84.png" alt="upload image" width="200" height="200">
+<div class="field" style="text-align: center;">
+      <input type="image" src="https://res.cloudinary.com/ddrhze6ov/image/upload/v1704630335/image_aspe84.png" alt="upload image" width="100" height="100">
       <div class="field is-grouped, vertical-center">
         <button class="button is-link" style="background-color: rgb(49, 94, 124);">Upload image</button>
       </div>
     </div>
-  <div id="map" style="height:500px;width:500px; color:#9E9E9E"></div>
+  <div class ="field" style="text-align: center;">
+    <input type="image"src="https://res.cloudinary.com/ddrhze6ov/image/upload/v1707141778/map_th6q4b.png" alt="map" width=150 height=150>
+    <div class="field is-grouped, vertical-center">
+    <button class="button is-link" style="background-color: rgb(49, 94, 124);">Pick location on Map</button>
+  </div>
+</div>
   <div class="field is-horizontal"></div>
       <div class="field">
           <label for="firstname" style="color: black" class="label">Homeowner Name</label>
@@ -73,7 +78,7 @@
           <input class="input" id="available" type="date" placeholder="" name="available">
     </div>
     <div class="field is-grouped">
-      <button class="button is-link" style="background-color: rgb(49, 94, 124);">Post Advert</button>
+      <button class="button is-link" style="background-color: rgb(49, 94, 124); ">Post Advert</button>
     </div>
     <div class="box">
       {message}

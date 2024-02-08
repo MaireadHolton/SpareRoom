@@ -1,15 +1,18 @@
 <script>
-	import Header from '$lib/Header.svelte';
-  import WelcomeNavigator from '$lib/WelcomeNavigator.svelte';
+	import Header from '../lib/Header.svelte'
+  import { getContext } from 'svelte';
+
+  const spareroomService = getContext("spareroomService");
+  spareroomService.logout();
+
 </script>
 
 <Header>
- <WelcomeNavigator></WelcomeNavigator>
 </Header> 
 
 <div class="columns is-vcentered content">
     <div class="column has-text-centered">
-      <img width="300" src="https://res.cloudinary.com/ddrhze6ov/image/upload/v1704550408/spareroom_logo_i9f9in.png" alt=""/>
+      <img width="200" src="https://res.cloudinary.com/ddrhze6ov/image/upload/v1704550408/spareroom_logo_i9f9in.png" alt=""/>
     </div>
     <div class="column">
       <h1 class="title" style="color: rgb(40, 103, 134)">Advertise your spare bedroom</h1>

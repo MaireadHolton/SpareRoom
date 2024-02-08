@@ -1,24 +1,29 @@
 <script>
-  import { onMount } from "svelte";
-  import { spareroomService } from "../services/spareRoom-service";
+  import { getContext, onMount } from "svelte";
 
-  let advertsList = [];
+  const spareroomService = getContext("spareroomService");
+  /**
+   * @type {any[]}
+   */
+  let AdvertList = [];
+
   onMount(async () => {
-    advertsList = await spareroomService.getAdverts();
+    AdvertList = await spareroomService.getAdverts();
   });
+
 </script>
 
 <table class="table is-fullwidth">
 	<thead>
-    <th>College</th>
-    <th>Price</th>
-    <th>Available</th>
+    <th style="text-align: center;">College</th>
+    <th style="text-align: center;">Price</th>
+    <th style="text-align: center;">Available</th>
  </thead>  
  <tbody>
-  {#each advertsList as advert}
+  {#each AdvertList as advert}
     <tr>
       <td>{advert.college}</td>
-      <td>{advert.price}</td>
+      <td>€{advert.price}</td>
       <td>{advert.available}</td>
     </tr>
   {/each}

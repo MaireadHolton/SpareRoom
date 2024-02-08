@@ -4,20 +4,20 @@
 	export let subTitle = '';
 </script>
 
-<div class="box has-text-centered columns m-2" style= "background-image: url('https://res.cloudinary.com/ddrhze6ov/image/upload/v1705168783/lecture-at-university_ab2jxy.jpg')">
-	<div class="column" style="background-color: rgb(50,121,173, 0.25)">
-		<img src="https://res.cloudinary.com/ddrhze6ov/image/upload/v1705170889/Text_v9ivfr.png" width="200" alt="img" />
+<div class="box has-text-centered columns m-3" style= "background-image: url('https://res.cloudinary.com/ddrhze6ov/image/upload/v1706989464/college2_qh5mpf.png')">
+	<div class="column" style="background-color: rgb(75,79,155, 0.75); padding: 50px ">
+		<img src="https://res.cloudinary.com/ddrhze6ov/image/upload/v1704550400/SpareRoomText_boxvkw.png" width="300" alt="img" />
 	</div>
-	<div class="column" style="background-color: rgb(50,121,173, 0.25)">
-		<div class="title is-4" style="color:rgb(82, 15, 62);">{title}</div>
-		<div class="subtitle is-5" style="color:rgb(25,95,146);">{subTitle}</div>
+	<div class="column" style="background-color: rgb(75,79,155, 0.75)">
+		<div class="title is-4" style="color:rgb(255,255,255);">{title}</div>
+		<div class="subtitle is-5" style="color:rgb(255,255,255);">{subTitle}</div>
 	</div>
-	<div class="column">
-		<i class="fas fa-home fa-3x" style="color:rgb(53, 106, 130)" />
+	<div class="column" style="background-color: rgb(75,79,155, 0.75)">
+		<i class="fas fa-user fa-3x" style="color:rgb(120, 152, 167); padding: 20px" />
 		{#if $user.email}
-			<div class="is-size-7">{$user.email}</div>
+			<div class="is-size-7" style="color:rgb(255,255,255);">{$user.email}</div>
 		{:else}
-			<div class="is-size-7">SpareRoom</div>
+			<div class="is-size-7" style="color:rgb(255,255,255);">SpareRoom</div>
 		{/if}
 	</div>
 </div>
