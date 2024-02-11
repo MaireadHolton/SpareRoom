@@ -6,7 +6,7 @@ export class spareroomService {
 
   constructor(baseUrl) {
     
-    this.baseUrl = "http://localhost:4000";
+    this.baseUrl = https://spareroom-hapi.onrender.com/;
 
     console.log(this.baseUrl);
     const spareroomCredentials = localStorage.spareRoom;
