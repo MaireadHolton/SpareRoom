@@ -1,6 +1,7 @@
 <script>
-	import { beforeUpdate } from "svelte";
-	import { spareroomService } from "../services/spareRoom-service";
+	import { beforeUpdate, getContext, onMount } from "svelte";
+	
+    const spareroomService = getContext("spareroomService");
 
 	beforeUpdate(() => {
 		spareroomService.reload();

@@ -4,8 +4,8 @@
     import Main from "./routes/Main.svelte";
     import Login from "./routes/Login.svelte";
     import Advert from "./routes/Advert.svelte";
-    import StudentSignup from "./routes/StudentSignup.svelte";
-    import HomeownerSignup from "./routes/HomeownerSignup.svelte";
+    //import StudentSignup from "./routes/StudentSignup.svelte";
+    import Signup from "./routes/Signup.svelte";
     import StudentDetail from "./routes/StudentDetail.svelte";
     import Report from "./routes/Report.svelte";
     //import Map from "./pages/Map.svelte";
@@ -16,9 +16,9 @@
     let routes = {
       "/": Main,
       "/login": Login,
-      "/studentSignup": StudentSignup,
+      //"/studentSignup": StudentSignup,
       "/advert": Advert,
-      "/homeownerSignup": HomeownerSignup,
+      "/Signup": Signup,
       "/studentDetail": StudentDetail,
       "/report": Report,
       //"/map": Map,

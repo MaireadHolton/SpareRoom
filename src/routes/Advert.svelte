@@ -1,7 +1,7 @@
 <script>
-	import LoggedInHeader from '$lib/LoggedInHeader.svelte';
-	import AdvertForm from '$lib/AdvertForm.svelte';
-	import MainNavigator from '$lib/MainNavigator.svelte';
+	import LoggedInHeader from '../lib/LoggedInHeader.svelte';
+	import AdvertForm from '../lib/AdvertForm.svelte';
+	import MainNavigator from '../lib/MainNavigator.svelte';
 </script>
 
 <LoggedInHeader >

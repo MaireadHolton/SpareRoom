@@ -4,6 +4,7 @@
   const spareroomService = getContext("spareroomService");
   /**
    * @type {any[]}
+   * 
    */
   let AdvertList = [];
 

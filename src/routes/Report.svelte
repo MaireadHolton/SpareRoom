@@ -1,13 +1,7 @@
 <script>
-	import LoggedInHeader from '$lib/LoggedInHeader.svelte';
-	import AdvertList from '$lib/AdvertList.svelte';
-	import MainNavigator from '$lib/MainNavigator.svelte';
-	import { onMount } from "svelte";
-	import { spareroomService } from '../services/spareRoom-service';
-
-	onMount(async () =>{
-		let AdvertList = await spareroomService.getAdverts();
-	})
+	import LoggedInHeader from '../lib/LoggedInHeader.svelte';
+	import AdvertList from '../lib/AdvertList.svelte';
+	import MainNavigator from '../lib/MainNavigator.svelte';
 </script>
 
 <LoggedInHeader>

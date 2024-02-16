@@ -1,7 +1,7 @@
 <script>
-	import Header from '$lib/Header.svelte';
-	import StudentSignupForm from '$lib/StudentSignupForm.svelte';
- 	import WelcomeNavigator from '$lib/WelcomeNavigator.svelte';
+	import Header from '../lib/Header.svelte';
+	import StudentSignupForm from '../lib/StudentSignupForm.svelte';
+ 	import WelcomeNavigator from '../lib/WelcomeNavigator.svelte';
 
 </script>
 
