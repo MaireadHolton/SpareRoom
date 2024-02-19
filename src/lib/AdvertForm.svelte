@@ -1,6 +1,8 @@
 <script>
-  import { createEventDispatcher, getContext, onMount } from "svelte";
+  import { createEventDispatcher, getContext } from "svelte";
   import { push } from "svelte-spa-router";
+  import Map from "../lib/Map.svelte";
+  import Coordinates from "../lib/Coordinates.svelte";
   
   const dispatch = createEventDispatcher();
 
@@ -8,6 +10,8 @@
 
   let firstName = "";
   let college = "";
+  let latitude = 51.82;
+  let longitude = -8.39;
   let description = "";
   let rules = "";
   let price = 0;
@@ -15,12 +19,13 @@
 
   let message = "Please enter details to post an advert";
 
-
-  async function advert() {
-    if (firstName && college && description && price && available) {
+  async function makeAdvert() {
+    if (firstName && college && latitude && longitude && description && price && available) {
       const advert = {
         firstName: firstName,
         college: college,
+        latitude: latitude,
+        longitude: longitude,
         price: price,
         available: available
       };
@@ -39,7 +44,7 @@
 }
 </script>
 
-<form on:submit|preventDefault={advert}>
+<form on:submit|preventDefault={makeAdvert}>
 <div class="field" style="text-align: center;">
       <input type="image" src="https://res.cloudinary.com/ddrhze6ov/image/upload/v1704630335/image_aspe84.png" alt="upload image" width="100" height="100">
       <div class="field is-grouped, vertical-center">
@@ -47,35 +52,43 @@
       </div>
     </div>
   <div class ="field" style="text-align: center;">
-    <input type="image"src="https://res.cloudinary.com/ddrhze6ov/image/upload/v1707141778/map_th6q4b.png" alt="map" width=150 height=150>
-    <div class="field is-grouped, vertical-center">
+    <Map />
     <button class="button is-link" style="background-color: rgb(49, 94, 124);">Pick location on Map</button>
-  </div>
 </div>
   <div class="field is-horizontal"></div>
       <div class="field">
           <label for="firstname" style="color: black" class="label">Homeowner Name</label>
-          <input class="input" id="firstname" type="text" placeholder="Enter first name" name="firstName">
+          <input bind:value={firstName} class="input" id="firstname" type="text" placeholder="Enter first name" name="firstName">
       </div>
       <div class="field">
           <label for="college" style="color: black" class="label">College Nearby</label>
-          <input class="input" id="college" type="text" placeholder="Enter college" name="college">
+          <input bind:value={college} class="input" id="college" type="text" placeholder="Enter college" name="college">
        </div>
        <div class="field">
+        <label class="label" for="latitude">Latitude</label>
+        <input bind:value={latitude} class="input" id="latitude" name="latitude" type="float">
+      </div>
+      <div class="field">
+        <label class="label" for="longitude">Longitude</label>
+        <input bind:value={longitude} class="input" id="longitude" name="longitude" type="float">
+      </div>
+      <Coordinates bind:latitude={latitude} bind:longitude={longitude}/>
+
+       <div class="field">
           <label for="Description" style="color: black" class="label">Description of accommodation</label>
-          <input class="input" id="description"type="text" placeholder="" name="description">
+          <input bind:value={description} class="input" id="description"type="text" placeholder="" name="description">
        </div>
     <div class="box">
       <label for="rules" style="color: black" class="label">House rules</label>
-      <input class="input" id="rules"type="text" placeholder="Enter any house rules" name="rules">
+      <input  bind:value={rules} class="input" id="rules"type="text" placeholder="Enter any house rules" name="rules">
     </div>
     <div class="field">
           <label for="price" style="color: black" class="label">Price</label>
-          <input class="input" id="price" type="number" placeholder="Enter price per month" name="price">
+          <input bind:value={price} class="input" id="price" type="number" placeholder="Enter price per month" name="price">
     </div>
     <div class="field">
           <label for="available" style="color: black" class="label">Availability</label>
-          <input class="input" id="available" type="date" placeholder="" name="available">
+          <input bind:value={available} class="input" id="available" type="date" placeholder="" name="available">
     </div>
     <div class="field is-grouped">
       <button class="button is-link" style="background-color: rgb(49, 94, 124); ">Post Advert</button>

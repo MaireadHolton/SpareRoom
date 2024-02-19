@@ -6,7 +6,7 @@ export class spareroomService {
 
   constructor(baseUrl) {
     
-    this.baseUrl = "https://spareroom-hapi.onrender.com/";
+    this.baseUrl = "http://localhost:4000";
 
     console.log(this.baseUrl);
     const spareroomCredentials = localStorage.spareRoom;
@@ -56,11 +56,14 @@ export class spareroomService {
     localStorage.removeItem("spareRoom");
   }
 
-  async signup(email, password) {
+  async signup(firstName, lastName, email, password, role) {
     try {
       const userDetails = {
+        firstName: firstName,
+        lastName: lastName,
         email: email,
         password: password,
+        role: role
       };
       await axios.post(this.baseUrl + "/api/users", userDetails);
       return true;
