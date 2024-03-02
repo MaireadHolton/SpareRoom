@@ -1,7 +1,7 @@
 <script>
     import TitleBar from "../lib/TitleBar.svelte";
     import MainNavigator from "../lib/MainNavigator.svelte";
-    import AdvertMap from "../lib/ReportMap.svelte";
+    import AdvertMap from "../lib/AdvertMap.svelte";
 </script>
 
 <div class="columns is-vcentered">

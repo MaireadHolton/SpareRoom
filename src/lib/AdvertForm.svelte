@@ -1,11 +1,10 @@
+<!-- AdvertForm.svelte-->
 <script>
   import { createEventDispatcher, getContext } from "svelte";
   import { push } from "svelte-spa-router";
-  import Map from "./ReportMap.svelte";
-  import Coordinates from "../lib/Coordinates.svelte";
+  import Map from "./AdvertMap.svelte";
   
   const dispatch = createEventDispatcher();
-
   const spareroomService = getContext("spareroomService");
 
   let firstName = "";
@@ -16,7 +15,6 @@
   let rules = "";
   let price = 0;
   let available = "";
-
   let message = "Please enter details to post an advert";
 
   async function makeAdvert() {
@@ -30,18 +28,24 @@
         available: available
       };
       const success = await spareroomService.makeAdvert(advert);
+
       if (!success) {
         message = "Advert not created - some error occured";
        return; }
+
        message = `Thanks ${firstName} your advert was posted`;
-       dispatch("message", {
-      advert: advert,
-      });
+       dispatch("message", {advert});
     } else {
       push ("/report")
       message = "Please fill all details to post an advert";
     }
 }
+
+// Handle the event dispatched by the map component
+function handleLocationSelected(event) {
+    latitude = event.detail.latitude;
+    longitude = event.detail.longitude;
+  }
 </script>
 
 <form on:submit|preventDefault={makeAdvert}>
@@ -52,8 +56,7 @@
       </div>
     </div>
   <div class ="field" style="text-align: center;">
-    <Map />
-    <button class="button is-link" style="background-color: rgb(49, 94, 124);">Pick location on Map</button>
+    <Map on:locationSelected={handleLocationSelected}/>
 </div>
   <div class="field is-horizontal"></div>
       <div class="field">
@@ -64,16 +67,6 @@
           <label for="college" style="color: black" class="label">College Nearby</label>
           <input bind:value={college} class="input" id="college" type="text" placeholder="Enter college" name="college">
        </div>
-       <div class="field">
-        <label class="label" for="latitude">Latitude</label>
-        <input bind:value={latitude} class="input" id="latitude" name="latitude" type="float">
-      </div>
-      <div class="field">
-        <label class="label" for="longitude">Longitude</label>
-        <input bind:value={longitude} class="input" id="longitude" name="longitude" type="float">
-      </div>
-      <Coordinates bind:latitude={latitude} bind:longitude={longitude}/>
-
        <div class="field">
           <label for="Description" style="color: black" class="label">Description of accommodation</label>
           <input bind:value={description} class="input" id="description"type="text" placeholder="" name="description">
