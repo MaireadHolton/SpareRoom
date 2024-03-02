@@ -1,7 +1,7 @@
 <script>
   import { createEventDispatcher, getContext } from "svelte";
   import { push } from "svelte-spa-router";
-  import Map from "../lib/Map.svelte";
+  import Map from "./ReportMap.svelte";
   import Coordinates from "../lib/Coordinates.svelte";
   
   const dispatch = createEventDispatcher();

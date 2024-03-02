@@ -1,12 +1,13 @@
 <script>
 	import { push } from "svelte-spa-router";
     import { getContext} from 'svelte';
+  import { user } from "../stores";
  
 	let firstName = '';
 	let lastName ='';
 	let email = '';
 	let password = '';
-	let role =  'Homeowner';
+	let role =  '';
 	let errorMessage = '';
 
 	const spareroomService = getContext("spareroomService");
@@ -14,13 +15,11 @@
 
 	async function signup() {
 		console.log(`attempting to sign up email: ${email}`);
-		let success = await spareroomService.signup(email, password)
+		let success = await spareroomService.signup(firstName, lastName, email, password, role)
+		
 		if (success) {
-			if (role= 'Homeowner') {
-			push("/advert");
-		} else { 
-			push("/studentDetail");
-		}
+			user.set({ ...$user, role });
+			push ("/login")
 		} else {
 			errorMessage = "Error trying to signup";
 		}
@@ -46,7 +45,7 @@
 		<input bind:value={password} class="input" id="password" name="password" placeholder="Enter Password" type="password" />
 	</div>
 	<div class="field" style="color:white">
-		<strong> Selected: {role}</strong>
+		<strong style="color:white; padding: 10px"> Selected: {role}</strong>
 		<label>
 			<input type="radio" value="Homeowner" bind:group={role} /> Homeowner
 		</label>
@@ -58,6 +57,7 @@
 		<button class="button is-link" style="background-color: rgb(103, 168, 233);">Sign up</button>
 	</div>
 </form>
+
 {#if errorMessage}
   <div class="section" style="color: white">
     {errorMessage}

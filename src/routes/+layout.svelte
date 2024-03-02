@@ -1,5 +1,5 @@
 <script>
-	import { beforeUpdate, getContext, onMount } from "svelte";
+	import { beforeUpdate, getContext} from "svelte";
 	
     const spareroomService = getContext("spareroomService");
 

@@ -1,6 +1,7 @@
 <script>
     import TitleBar from './TitleBar.svelte';
     import MainNavigator from './MainNavigator.svelte';
+
 </script>
 
 <div class="columns is-vcentered">
@@ -8,6 +9,6 @@
         <TitleBar title={'spareRoom'} subTitle={'Find or post student accommodation'} />
     </div>
     <div class="column">
-        <MainNavigator />
+      <MainNavigator />
     </div>
 </div>

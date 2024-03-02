@@ -6,7 +6,7 @@ export class spareroomService {
 
   constructor(baseUrl) {
     
-    this.baseUrl = "http://localhost:4000";
+    this.baseUrl = "http://localhost:3000";
 
     console.log(this.baseUrl);
     const spareroomCredentials = localStorage.spareRoom;
@@ -15,11 +15,14 @@ export class spareroomService {
       user.set({
         email: savedUser.email,
         token: savedUser.token,
+        role: savedUser.role,
       });
       axios.defaults.headers.common["Authorization"] =
         "Bearer " + savedUser.token;
     }
   }
+
+ 
 
   async login(email, password) {
     try {
@@ -27,12 +30,17 @@ export class spareroomService {
         `${this.baseUrl}/api/users/authenticate`,
         { email, password }
       );
+
+        console.log('Login response:' + response);
+
       axios.defaults.headers.common["Authorization"] =
         "Bearer " + response.data.token;
+
       if (response.data.success) {
         user.set({
           email: email,
           token: response.data.token,
+          role: response.data.role,
         });
         localStorage.spareRoom = JSON.stringify({
           email: email,
@@ -65,10 +73,23 @@ export class spareroomService {
         password: password,
         role: role
       };
-      await axios.post(this.baseUrl + "/api/users", userDetails);
+      await axios.post(`${this.baseUrl}/api/users`, userDetails);
       return true;
     } catch (error) {
       return false;
+    }
+  }
+
+  async getUserRole() {
+    try {
+      const response = await axios.get(`${this.baseUrl}/api/users/role`, {
+        headers: { Authorization: `Bearer ${user.token}` },
+      });
+
+      return response.data.role;
+    } catch (error) {
+      console.error("Error fetching user role:", error);
+      return null;
     }
   }
 
@@ -79,6 +100,7 @@ export class spareroomService {
       user.set({
         email: savedUser.email,
         token: savedUser.token,
+        role: savedUser.role,
       });
       axios.defaults.headers.common["Authorization"] =
         "Bearer " + savedUser.token;
@@ -88,8 +110,8 @@ export class spareroomService {
   async makeAdvert(advert) {
     try {
       const response = await axios.post(
-        this.baseUrl + "api/" + advert + "/adverts",
-        advert
+        `${this.baseUrl}/api/${advert}/adverts`,
+      advert
       );
       return response.status == 200;
     } catch (error) {
@@ -99,7 +121,7 @@ export class spareroomService {
 
   async getAdverts() {
     try {
-      const response = await axios.get(this.baseUrl + "api/adverts");
+      const response = await axios.get(`${this.baseUrl}/api/adverts`);
       return response.data;
     } catch (error) {
       return [];
@@ -109,7 +131,7 @@ export class spareroomService {
   async makeStudentDetail(studentDetail) {
     try {
       const response = await axios.post(
-        this.baseUrl + "api/" + studentDetail + "/student",
+        `${this.baseUrl}/api/ ${studentDetail}/student`,
         studentDetail
       );
       return response.status == 200;
@@ -120,7 +142,7 @@ export class spareroomService {
 
   async getStudentDetails() {
     try {
-      const response = await axios.get(this.baseUrl + "api/student");
+      const response = await axios.get(`${this.baseUrl}/api/student`);
       return response.data;
     } catch (error) {
       return [];

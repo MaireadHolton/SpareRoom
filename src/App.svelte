@@ -4,25 +4,23 @@
     import Main from "./routes/Main.svelte";
     import Login from "./routes/Login.svelte";
     import Advert from "./routes/Advert.svelte";
-    //import StudentSignup from "./routes/StudentSignup.svelte";
     import Signup from "./routes/Signup.svelte";
     import StudentDetail from "./routes/StudentDetail.svelte";
     import Report from "./routes/Report.svelte";
-    //import Map from "./pages/Map.svelte";
     import Router from "svelte-spa-router";
+    import Map from "./routes/Map.svelte";
   
     setContext("spareroomService", new spareroomService("http://localhost:4000"));
   
     let routes = {
-      "/": Main,
+      "/main": Main,
       "/login": Login,
-      //"/studentSignup": StudentSignup,
       "/advert": Advert,
-      "/Signup": Signup,
+      "/signup": Signup,
       "/studentDetail": StudentDetail,
       "/report": Report,
-      //"/map": Map,
-      "/logout": Main
+      "/logout": Main,
+      "/map" : Map,
     }
   </script>
   

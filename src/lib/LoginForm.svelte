@@ -1,10 +1,13 @@
 <script>
 	import { push } from 'svelte-spa-router';
   	import { getContext } from 'svelte';
+    import { user } from '../stores';
 
 	let email = '';
 	let password = '';
+	let role = '';
 	let errorMessage = '';
+
 
 	const spareroomService = getContext("spareroomService");
 
@@ -12,6 +15,8 @@
 		console.log(`attepmting to log in email: ${email} with password: ${password}`);
 		let success = await spareroomService.login(email, password);
 		if (success) {
+			user.set({ ...$user });
+			console.log('User after login:', $user);
 			push('/report');
 		} else {
 			email = "";

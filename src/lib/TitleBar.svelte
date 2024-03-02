@@ -15,7 +15,7 @@
 	<div class="column" style="background-color: rgb(75,79,155, 0.75)">
 		<i class="fas fa-user fa-3x" style="color:rgb(120, 152, 167); padding: 20px" />
 		{#if $user.email}
-			<div class="is-size-7" style="color:rgb(255,255,255);">{$user.email}</div>
+			<div class="is-size-7" style="color:rgb(255,255,255);">{$user.email}, {$user.role}</div>
 		{:else}
 			<div class="is-size-7" style="color:rgb(255,255,255);">SpareRoom</div>
 		{/if}

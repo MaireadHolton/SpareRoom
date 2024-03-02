@@ -1,5 +1,5 @@
 <script>
-  import { createEventDispatcher, getContext, onMount } from "svelte";
+  import { createEventDispatcher, getContext} from "svelte";
   import { push } from "svelte-spa-router";
   
   const dispatch = createEventDispatcher();
