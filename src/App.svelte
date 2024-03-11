@@ -8,19 +8,17 @@
     import StudentDetail from "./routes/StudentDetail.svelte";
     import Report from "./routes/Report.svelte";
     import Router from "svelte-spa-router";
-    import Map from "./routes/Map.svelte";
   
-    setContext("spareroomService", new spareroomService("http://localhost:4000"));
+    setContext("spareroomService", new spareroomService("http://localhost:3000"));
   
     let routes = {
-      "/main": Main,
+      "/": Main,
       "/login": Login,
       "/advert": Advert,
       "/signup": Signup,
       "/studentDetail": StudentDetail,
       "/report": Report,
       "/logout": Main,
-      "/map" : Map,
     }
   </script>
   

@@ -1,12 +1,11 @@
-<!-- AdvertMap.svelte-->
 <script>
-  import { onMount, createEventDispatcher } from "svelte";
+  import { createEventDispatcher } from "svelte";
+  import { writable } from "svelte/store";
   import LoadScript from "svelte-google-maps-api/LoadScript.svelte";
   import GoogleMap from "svelte-google-maps-api/GoogleMap.svelte";
   import Marker from 'svelte-google-maps-api/Marker.svelte';
 
-  let latitude = 51.82;
-  let longitude = -8.39;
+  const location = writable({ latitude: 51.82, longitude: -8.39 });
   
   const options = {
     zoom: 12,
@@ -16,15 +15,15 @@
  const dispatch = createEventDispatcher();
 
   function handleMapClick(event) {
-    latitude = event.latLng.lat();
-    longitude = event.latLng.lng();
-    dispatch('locationSelected', { latitude, longitude });
-  }
+    const newLocation = {latitude: event.latLng.lat(), longitude: event.latLng.lng()};
+    location.set(newLocation);
+    dispatch('locationSelected', newLocation);
+  } 
 
   function handleMarkerDragEnd(event) {
-    latitude = event.latLng.lat();
-    longitude = event.latLng.lng();
-    dispatch('locationSelected', { latitude, longitude });
+    const newLocation = {latitude: event.latLng.lat(), longitude: event.latLng.lng()};
+    location.set(newLocation);
+    dispatch('locationSelected', newLocation);
   }
 
 </script>
@@ -34,13 +33,25 @@
   {options}
   on:click={handleMapClick}
   mapContainerStyle="height: 600px;">
-  {#if latitude !== null && longitude !== null}
-      <Marker
-        position={{lat: latitude, lng: longitude}}
-        {options}
-        on:dragend={handleMarkerDragEnd} />
+
+{#if $location.latitude !== null && $location.longitude !== null}
+      {#if $location.latitude !== undefined && $location.longitude !== undefined}
+        {#if $location.latitude !== undefined && $location.longitude !== undefined}
+          <Marker
+            position={{ lat: $location.latitude, lng: $location.longitude }}
+            {options}
+            on:dragend={handleMarkerDragEnd} />
+        {/if}
       {/if}
+    {/if}
   </GoogleMap>
+
+<!-- Emit the latitude and longitude values for two-way binding -->
+{#if $location.latitude !== undefined && $location.longitude !== undefined}
+{$location.latitude}
+{$location.longitude}
+{/if}
+
 </LoadScript>
 
 

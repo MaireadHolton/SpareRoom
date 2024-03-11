@@ -1,31 +1,38 @@
-<!-- AdvertForm.svelte-->
 <script>
   import { createEventDispatcher, getContext } from "svelte";
   import { push } from "svelte-spa-router";
-  import Map from "./AdvertMap.svelte";
+ // import Map from "./AdvertMap.svelte";
   
   const dispatch = createEventDispatcher();
   const spareroomService = getContext("spareroomService");
 
   let firstName = "";
   let college = "";
-  let latitude = 51.82;
-  let longitude = -8.39;
+  //let latitude = 51.82;
+  //let longitude = -8.39;
   let description = "";
   let rules = "";
   let price = 0;
   let available = "";
   let message = "Please enter details to post an advert";
 
+  function handleDateChange(event) {
+    available = event.target.value;
+    console.log('Selected date:', available);
+    return available;
+  }
+
   async function makeAdvert() {
-    if (firstName && college && latitude && longitude && description && price && available) {
+    if (firstName && college && description && rules && price && available) {
       const advert = {
         firstName: firstName,
         college: college,
-        latitude: latitude,
-        longitude: longitude,
+        description: description,
+        //latitude: latitude,
+        //longitude: longitude,
+        rules: rules,
         price: price,
-        available: available
+        available: available,
       };
       const success = await spareroomService.makeAdvert(advert);
 
@@ -37,15 +44,16 @@
        dispatch("message", {advert});
     } else {
       push ("/report")
+      console.log("Date: ", available);
       message = "Please fill all details to post an advert";
     }
 }
 
 // Handle the event dispatched by the map component
-function handleLocationSelected(event) {
+/*function handleLocationSelected(event) {
     latitude = event.detail.latitude;
     longitude = event.detail.longitude;
-  }
+  }*/
 </script>
 
 <form on:submit|preventDefault={makeAdvert}>
@@ -55,9 +63,9 @@ function handleLocationSelected(event) {
         <button class="button is-link" style="background-color: rgb(49, 94, 124);">Upload image</button>
       </div>
     </div>
-  <div class ="field" style="text-align: center;">
+ <!-- <div class ="field" style="text-align: center;">
     <Map on:locationSelected={handleLocationSelected}/>
-</div>
+</div>-->
   <div class="field is-horizontal"></div>
       <div class="field">
           <label for="firstname" style="color: black" class="label">Homeowner Name</label>
@@ -81,8 +89,8 @@ function handleLocationSelected(event) {
     </div>
     <div class="field">
           <label for="available" style="color: black" class="label">Availability</label>
-          <input bind:value={available} class="input" id="available" type="date" placeholder="" name="available">
-    </div>
+          <input bind:value={available} on:change={handleDateChange} class="input" id="available" type="date" placeholder="" name="available">
+    </div> 
     <div class="field is-grouped">
       <button class="button is-link" style="background-color: rgb(49, 94, 124); ">Post Advert</button>
     </div>

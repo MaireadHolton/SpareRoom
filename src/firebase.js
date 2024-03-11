@@ -13,9 +13,7 @@ const firebaseConfig = {
   storageBucket: "spareroom-414816.appspot.com",
   messagingSenderId: "567425578892",
   appId: "1:567425578892:web:e7612d6b4f0eb0529688a9",
-  measurementId: "G-EZ5146YSJK"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
