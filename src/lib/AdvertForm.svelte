@@ -1,15 +1,14 @@
 <script>
   import { createEventDispatcher, getContext } from "svelte";
   import { push } from "svelte-spa-router";
- // import Map from "./AdvertMap.svelte";
+  import Map from "./AdvertMap.svelte";
+  import { markerLocation } from "../stores";
   
   const dispatch = createEventDispatcher();
   const spareroomService = getContext("spareroomService");
 
   let firstName = "";
   let college = "";
-  //let latitude = 51.82;
-  //let longitude = -8.39;
   let description = "";
   let rules = "";
   let price = 0;
@@ -22,14 +21,21 @@
     return available;
   }
 
+  function handleLocationSelected(event) {
+    markerLocation.set(event.detail);
+    console.log("Location: ", markerLocation);
+    return markerLocation;
+  }
+
   async function makeAdvert() {
-    if (firstName && college && description && rules && price && available) {
+    const { lat, lng}  = $markerLocation;
+    if (firstName && college && description && lat && lng && rules && price && available) {
       const advert = {
         firstName: firstName,
         college: college,
         description: description,
-        //latitude: latitude,
-        //longitude: longitude,
+        lat: lat,
+        lng: lng,
         rules: rules,
         price: price,
         available: available,
@@ -44,16 +50,9 @@
        dispatch("message", {advert});
     } else {
       push ("/report")
-      console.log("Date: ", available);
       message = "Please fill all details to post an advert";
     }
 }
-
-// Handle the event dispatched by the map component
-/*function handleLocationSelected(event) {
-    latitude = event.detail.latitude;
-    longitude = event.detail.longitude;
-  }*/
 </script>
 
 <form on:submit|preventDefault={makeAdvert}>
@@ -63,9 +62,9 @@
         <button class="button is-link" style="background-color: rgb(49, 94, 124);">Upload image</button>
       </div>
     </div>
- <!-- <div class ="field" style="text-align: center;">
+<div class ="field" style="text-align: center;">
     <Map on:locationSelected={handleLocationSelected}/>
-</div>-->
+ </div>
   <div class="field is-horizontal"></div>
       <div class="field">
           <label for="firstname" style="color: black" class="label">Homeowner Name</label>

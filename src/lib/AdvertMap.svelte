@@ -1,57 +1,47 @@
 <script>
-  import { createEventDispatcher } from "svelte";
-  import { writable } from "svelte/store";
-  import LoadScript from "svelte-google-maps-api/LoadScript.svelte";
-  import GoogleMap from "svelte-google-maps-api/GoogleMap.svelte";
-  import Marker from 'svelte-google-maps-api/Marker.svelte';
+  import { createEventDispatcher, setContext, onMount } from "svelte";
+  import { Loader } from "@googlemaps/js-api-loader";
+  import { markerLocation } from "../stores";
 
-  const location = writable({ latitude: 51.82, longitude: -8.39 });
-  
-  const options = {
-    zoom: 12,
-		center: {lat: 51.82, lng: -8.39},
-    draggable: true,
-  };
- const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher();
 
-  function handleMapClick(event) {
-    const newLocation = {latitude: event.latLng.lat(), longitude: event.latLng.lng()};
-    location.set(newLocation);
-    dispatch('locationSelected', newLocation);
-  } 
+  onMount(() => {
+    const loader = new Loader({
+      apiKey: "AIzaSyCz5DqAQyUmoPqH43OYAK_wxWxWmpNz8pM",
+      version: "weekly",
+    });
+    loader.load().then(() => {
+      const map = new google.maps.Map(document.getElementById("map"), {
+        center: { lat: 51.89, lng: -8.47 },
+        zoom: 12,
+      });
 
-  function handleMarkerDragEnd(event) {
-    const newLocation = {latitude: event.latLng.lat(), longitude: event.latLng.lng()};
-    location.set(newLocation);
-    dispatch('locationSelected', newLocation);
-  }
+      const marker = new google.maps.Marker({
+        position: { lat: 51.89, lng: -8.47 },
+        map: map,
+        title: "Share accommodation location",
+        draggable: true,
+      });
 
+      marker.addListener("dragend", (event) => {
+        const newPosition = {
+          lat: event.latLng.lat(),
+          lng: event.latLng.lng(),
+        };
+        markerLocation.set(newPosition);
+      });
+      setContext('map', map);
+      setContext('marker', marker);
+      dispatch("mapReady", { map, marker });
+    });
+  });
 </script>
 
-<LoadScript apiKey={'AIzaSyCz5DqAQyUmoPqH43OYAK_wxWxWmpNz8pM'}>
-<GoogleMap 
-  {options}
-  on:click={handleMapClick}
-  mapContainerStyle="height: 600px;">
-
-{#if $location.latitude !== null && $location.longitude !== null}
-      {#if $location.latitude !== undefined && $location.longitude !== undefined}
-        {#if $location.latitude !== undefined && $location.longitude !== undefined}
-          <Marker
-            position={{ lat: $location.latitude, lng: $location.longitude }}
-            {options}
-            on:dragend={handleMarkerDragEnd} />
-        {/if}
-      {/if}
-    {/if}
-  </GoogleMap>
-
-<!-- Emit the latitude and longitude values for two-way binding -->
-{#if $location.latitude !== undefined && $location.longitude !== undefined}
-{$location.latitude}
-{$location.longitude}
-{/if}
-
-</LoadScript>
-
+<div id="map"></div>
+<style>
+  #map {
+    height: 400px;
+    width: 100%;
+  }
+</style>
 

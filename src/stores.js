@@ -5,3 +5,9 @@ export const user = writable({
   token: "",
   role: ""
 });
+
+
+export const markerLocation = writable({
+  lat: 51.89,
+  lng: -8.47
+});

@@ -54,10 +54,10 @@
 </div>
 <div class="field is-horizontal"></div>
 <div class="field">
-  <label for="firstname" style="color: black" class="label">First Name</label>
+  <label for="firstName" style="color: black" class="label">First Name</label>
   <input
     class="input"
-    id="firstname"
+    id="firstName"
     type="text"
     placeholder="Enter first name"
     name="firstName"
