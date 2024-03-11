@@ -3,9 +3,14 @@
   import { push } from "svelte-spa-router";
   import Map from "./AdvertMap.svelte";
   import { markerLocation } from "../stores";
+  import app from "../firebase";
+  import { getStorage, ref, uploadBytes } from "@firebase/storage"
+
   
   const dispatch = createEventDispatcher();
   const spareroomService = getContext("spareroomService");
+  const storage = getStorage(app);
+  
 
   let firstName = "";
   let college = "";
@@ -13,6 +18,7 @@
   let rules = "";
   let price = 0;
   let available = "";
+  let img = null;
   let message = "Please enter details to post an advert";
 
   function handleDateChange(event) {
@@ -27,39 +33,59 @@
     return markerLocation;
   }
 
+  function handleImageChange(event) {
+    const file = event.target.files[0];
+    if (file) {
+      img = file;
+    }
+  }
+
+  async function uploadImage() {
+    if (img) {
+      const storageRef = ref(storage, 'images/${img}');
+      await uploadBytes(storageRef, img);
+      const imageUrl = `https://console.firebase.google.com/project/spareroom-414816/storage/spareroom-414816.appspot.com/files/images`;
+      return imageUrl;
+    }
+    return null;
+  }
+
   async function makeAdvert() {
     const { lat, lng}  = $markerLocation;
-    if (firstName && college && description && lat && lng && rules && price && available) {
-      const advert = {
-        firstName: firstName,
-        college: college,
-        description: description,
-        lat: lat,
-        lng: lng,
-        rules: rules,
-        price: price,
-        available: available,
-      };
+    const imageUrl = await uploadImage(); 
+    if (firstName && college && description && lat && lng && rules && price && available && img) {
+        const advert = {
+          firstName: firstName,
+          college: college,
+          description: description,
+          lat: lat,
+          lng: lng,
+          rules: rules,
+          price: price,
+          available: available,
+          img: imageUrl,
+        };
+
       const success = await spareroomService.makeAdvert(advert);
 
-      if (!success) {
-        message = "Advert not created - some error occured";
-       return; }
+if (!success) {
+  message = "Advert not created - some error occurred";
+  return;
+}
 
-       message = `Thanks ${firstName} your advert was posted`;
-       dispatch("message", {advert});
-    } else {
-      push ("/report")
-      message = "Please fill all details to post an advert";
-    }
+message = `Thanks ${firstName} your advert was posted`;
+dispatch("message", { advert });
+} else {
+push("/report");
+message = "Please fill all details to post an advert";
+}
 }
 </script>
 
 <form on:submit|preventDefault={makeAdvert}>
 <div class="field" style="text-align: center;">
-      <input type="image" src="https://res.cloudinary.com/ddrhze6ov/image/upload/v1704630335/image_aspe84.png" alt="upload image" width="100" height="100">
+      <input type="file" id="img" accept="image/*" on:change={handleImageChange}>
       <div class="field is-grouped, vertical-center">
-        <button class="button is-link" style="background-color: rgb(49, 94, 124);">Upload image</button>
       </div>
     </div>
 <div class ="field" style="text-align: center;">

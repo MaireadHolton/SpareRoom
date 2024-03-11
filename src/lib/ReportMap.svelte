@@ -1,27 +1,69 @@
 <script>
     import { onMount, getContext } from "svelte";
-    import LoadScript from "svelte-google-maps-api/LoadScript.svelte";
-    import GoogleMap from "svelte-google-maps-api/GoogleMap.svelte";
-    import Marker from "svelte-google-maps-api/Marker.svelte";
-  
-    const spareroomService = getContext("spareroomService");
-    let adverts = [];
-  
-    const options = {
-      zoom: 8,
-      center: {lat: 51.82, lng: -8.39},
-    };
+    import { Loader } from "@googlemaps/js-api-loader";
 
-    async function getAdverts() {
-      adverts = await spareroomService.getAdverts();
-    }
-  
+    const spareroomService = getContext("spareroomService");
+    let AdvertList = [];
+    let infoWindow = null;
+    let error = null;
+
+    onMount(async() => {
+      try {
+        AdvertList = await spareroomService.getAdverts();
+        } catch (e) {
+        console.error("Error fetching adverts:", e);
+        error = "Error fetching adverts. Please try again later.";
+      }
+    const loader = new Loader({
+      apiKey: "AIzaSyCz5DqAQyUmoPqH43OYAK_wxWxWmpNz8pM",
+      version: "weekly",
+    });
+    loader.load().then(() => {
+      const map = new google.maps.Map(document.getElementById("map"), {
+        center: { lat: 51.89, lng: -8.47 },
+        zoom: 6,
+        scrollwheel: true,
+      });
+      AdvertList.forEach(advert => {
+        const marker = new google.maps.Marker({
+          position: { lat: advert.lat, lng: advert.lng },
+          map: map,
+          title: advert.college
+        });
+
+        infoWindow = new google.maps.InfoWindow();
+
+        marker.addListener("click", () => {
+          const content = 
+          `<div>
+            <h3>Name: ${advert.firstName}</h3>
+            <p>Price: €${advert.price}</p>
+              <p>Description: ${advert.description}</p>
+              </div>`
+          infoWindow.setContent(content);
+          infoWindow.open(map, marker);
+        });
+      });
+
+    });
+  });
+
   </script>
   
-  <LoadScript apiKey={'AIzaSyCz5DqAQyUmoPqH43OYAK_wxWxWmpNz8pM'}>
-  <GoogleMap {options} mapContainerStyle= "height: 600px;">
-    {#each adverts as advert (advert.id)}
-      <Marker position={{ lat: advert.latitude, lng: advert.longitude }} />
-    {/each}
-  </GoogleMap>
-  </LoadScript>
+  <div id="map"></div>
+  <style>
+    #map {
+      height: 400px;
+      width: 100%;
+    }
+  </style>
+
+{#if AdvertList.length === 0}
+<p>Loading adverts...</p>
+{:else}
+{#each AdvertList as advert (advert._id)}
+  <div>
+    <p>{advert.college}, {advert.price}</p>
+  </div>
+{/each}
+{/if}
