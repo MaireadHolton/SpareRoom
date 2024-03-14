@@ -21,7 +21,7 @@
     loader.load().then(() => {
       const map = new google.maps.Map(document.getElementById("map"), {
         center: { lat: 51.89, lng: -8.47 },
-        zoom: 6,
+        zoom: 7,
         scrollwheel: true,
       });
       AdvertList.forEach(advert => {
@@ -53,17 +53,8 @@
   <div id="map"></div>
   <style>
     #map {
-      height: 400px;
+      height: 600px;
       width: 100%;
     }
   </style>
 
-{#if AdvertList.length === 0}
-<p>Loading adverts...</p>
-{:else}
-{#each AdvertList as advert (advert._id)}
-  <div>
-    <p>{advert.college}, {advert.price}</p>
-  </div>
-{/each}
-{/if}

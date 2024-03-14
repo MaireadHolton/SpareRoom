@@ -4,15 +4,15 @@
   import Map from "./AdvertMap.svelte";
   import { markerLocation } from "../stores";
   import app from "../firebase";
-  import { getStorage, ref, uploadBytes } from "@firebase/storage"
+  import { getDownloadURL, getStorage, ref, uploadBytes } from "@firebase/storage"
 
   
   const dispatch = createEventDispatcher();
   const spareroomService = getContext("spareroomService");
   const storage = getStorage(app);
-  
 
   let firstName = "";
+  let contactEmail = "";
   let college = "";
   let description = "";
   let rules = "";
@@ -42,9 +42,10 @@
 
   async function uploadImage() {
     if (img) {
-      const storageRef = ref(storage, 'images/${img}');
+      const imageName = Date.now() + '_' + img.name;
+      const storageRef = ref(storage, 'images/' + imageName);
       await uploadBytes(storageRef, img);
-      const imageUrl = `https://console.firebase.google.com/project/spareroom-414816/storage/spareroom-414816.appspot.com/files/images`;
+      const imageUrl = await getDownloadURL(storageRef);
       return imageUrl;
     }
     return null;
@@ -53,9 +54,10 @@
   async function makeAdvert() {
     const { lat, lng}  = $markerLocation;
     const imageUrl = await uploadImage(); 
-    if (firstName && college && description && lat && lng && rules && price && available && img) {
+    if (firstName && contactEmail && college && description && lat && lng && rules && price && available && img) {
         const advert = {
           firstName: firstName,
+          contactEmail: contactEmail,
           college: college,
           description: description,
           lat: lat,
@@ -95,6 +97,11 @@ message = "Please fill all details to post an advert";
       <div class="field">
           <label for="firstname" style="color: black" class="label">Homeowner Name</label>
           <input bind:value={firstName} class="input" id="firstname" type="text" placeholder="Enter first name" name="firstName">
+      </div>
+      <div class="field is-horizontal"></div>
+      <div class="field">
+          <label for="contactEmail" style="color: black" class="label">Contact Email</label>
+          <input bind:value={contactEmail} class="input" id="contactEmail" type="text" placeholder="Enter a contact email" name="contactEmail">
       </div>
       <div class="field">
           <label for="college" style="color: black" class="label">College Nearby</label>
