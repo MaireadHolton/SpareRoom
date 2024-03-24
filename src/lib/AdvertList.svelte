@@ -8,6 +8,9 @@
   let AdvertList = [];
   let error = null;
  
+  function formatDate(dateString) {
+    return dateString.split('T')[0]; 
+  }
 
   onMount(async () => {
     try {
@@ -21,6 +24,7 @@
   function viewAdvertDetails(advert) {
     push(`/post/${advert._id}`);
   }
+
 </script>
 
 {#if error}
@@ -39,7 +43,7 @@
         <tr>
           <td>{advert.college}</td>
           <td>€{advert.price}</td>
-          <td>{advert.available}</td>
+          <td>{formatDate(advert.available)}</td>
           <td>
             {#if advert._id}
               <button on:click={() => viewAdvertDetails(advert)} class="button is link" style="background-color:rgb(49, 94, 124)">
