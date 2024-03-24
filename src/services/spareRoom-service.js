@@ -6,7 +6,7 @@ export class spareroomService {
 
   constructor(baseUrl) {
     
-    this.baseUrl = "https://spareroom-hapi.onrender.com/";
+    this.baseUrl = "https://spareroom-hapi.onrender.com";
     this.setupAuthorizationHeader();
   }
 
