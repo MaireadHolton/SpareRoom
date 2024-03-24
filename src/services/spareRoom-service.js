@@ -1,4 +1,4 @@
-// @ts-nocheck
+//Spareroom-Service.js
 import axios from "axios";
 import { user } from "../stores";
 
@@ -6,7 +6,7 @@ export class spareroomService {
 
   constructor(baseUrl) {
     
-    this.baseUrl = "http://localhost:3000";
+    this.baseUrl = "https://spareroom-hapi.onrender.com/";
     this.setupAuthorizationHeader();
   }
 
@@ -56,6 +56,7 @@ export class spareroomService {
       user.set({
         email: "",
         token: "",
+        role: "",
       });
       axios.defaults.headers.common["Authorization"] = "";
       localStorage.removeItem("spareRoom");
@@ -93,6 +94,15 @@ export class spareroomService {
     async getAdverts() {
       try {
         const response = await axios.get(`${this.baseUrl}/api/advert`);
+        return response.data;
+      } catch (error) {
+        return [];
+      }
+    }
+
+    async getAdvertById(AdvertId) {
+      try {
+        const response = await axios.get(`${this.baseUrl}/api/advert/${AdvertId}`)
         return response.data;
       } catch (error) {
         return [];
