@@ -10,7 +10,7 @@
     import Report from "./routes/Report.svelte";
     import Router from "svelte-spa-router";
   
-    setContext("spareroomService", new spareroomService("https://spareroom-hapi.onrender.com/"));
+    setContext("spareroomService", new spareroomService("https://spareroom-hapi.onrender.com"));
   
     let routes = {
       "/": Main,
